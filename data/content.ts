@@ -64,14 +64,12 @@ export const projectsContent = {
     {
       title: 'Dashboard Dakgar V2',
       description: [
-        'Memahami end-to-end flow Dashboard Dakgar',
-        'Memahami alur ETLE → Vendor → Database → Tableau',
         'Rekonsiliasi data (query gap analysis vs vendor E-Tilang & ETLENAS)',
         'Setup project & desain API',
         'Integrasi frontend–backend',
         'Pengembangan fitur dashboard',
       ],
-      techTags: ['Next.js', 'TypeScript', 'Material UI', 'Fastify', 'PostgreSQL', 'Prisma ORM'],
+      // techTags: ['Next.js', 'Material UI', 'Fastify', 'PostgreSQL'],
       icon: 'LayoutDashboard',
       color: 'bg-teal-500/20 text-teal-400',
       images: [
@@ -153,7 +151,6 @@ export const lessonsLearnedContent = {
         'Fastify',
         'Prisma ORM',
         'PostgreSQL',
-        'Next.js',
         'Deployment di Linux Server',
       ],
       generalAwareness: ['PRTG', 'Grafana'],

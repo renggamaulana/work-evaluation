@@ -59,13 +59,13 @@ export default function ProjectModal({ project, images, onClose }: ProjectModalP
         {/* Backdrop */}
         <div className="absolute inset-0 bg-black/80 backdrop-blur-sm" />
 
-        {/* Modal Content */}
+        {/* Modal Content — fixed height flex column so image + details always fit */}
         <motion.div
           initial={{ scale: 0.95, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           exit={{ scale: 0.95, opacity: 0 }}
           transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
-          className="relative w-full max-w-4xl max-h-[90dvh] bg-[#0B1120] border border-white/10 rounded-2xl overflow-hidden shadow-2xl"
+          className="relative w-full max-w-4xl h-[90dvh] md:h-[85dvh] bg-[#0B1120] border border-white/10 rounded-2xl overflow-hidden shadow-2xl flex flex-col"
           onClick={(e) => e.stopPropagation()}
         >
           {/* Close Button */}
@@ -76,8 +76,8 @@ export default function ProjectModal({ project, images, onClose }: ProjectModalP
             <X className="w-5 h-5" />
           </button>
 
-          {/* Image Slideshow */}
-          <div className="relative aspect-video md:aspect-[16/9] bg-[#0F172A] overflow-hidden">
+          {/* Image Slideshow — capped height, never grows past its share */}
+          <div className="relative flex-shrink-0 h-[42vh] md:h-[48vh] bg-[#0F172A] overflow-hidden">
             <AnimatePresence mode="wait">
               <motion.img
                 key={currentImageIndex}
@@ -136,8 +136,8 @@ export default function ProjectModal({ project, images, onClose }: ProjectModalP
             )}
           </div>
 
-          {/* Project Details */}
-          <div className="p-6 md:p-8 max-h-[40dvh] overflow-y-auto">
+          {/* Project Details — takes remaining space, scrolls internally, never clipped */}
+          <div className="flex-1 min-h-0 overflow-y-auto p-6 md:p-8">
             <h2 className="font-sans text-2xl md:text-3xl font-bold text-white mb-4">{project.title}</h2>
 
             <div className="mb-6">
