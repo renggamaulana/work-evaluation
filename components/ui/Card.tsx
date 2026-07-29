@@ -9,7 +9,7 @@ export default function Card({ className, variant = 'default', children, ...prop
   return (
     <div
       className={cn(
-        'rounded-xl border border-white/10 p-4 md:p-6 transition-all duration-300 flex flex-col',
+        'rounded-xl border border-white/10 p-4 transition-all duration-300 flex flex-col',
         'hover:border-teal-400/40 hover:shadow-teal-500/10 hover:shadow-lg',
         variant === 'challenges' ? 'bg-slate-900/80' : 'bg-white/5',
         className

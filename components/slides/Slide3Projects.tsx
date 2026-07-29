@@ -2,25 +2,22 @@
 
 import { motion } from 'framer-motion';
 import { useState } from 'react';
-import Card from '@/components/ui/Card';
-import Badge from '@/components/ui/Badge';
-import ProjectModal from '@/components/ProjectModal';
+import { ChevronRight, Monitor, Activity, Globe, GitBranch, X } from 'lucide-react';
 import { projectsContent } from '@/data/content';
-import * as LucideIcons from 'lucide-react';
 
 const containerVariants = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
     transition: {
-      staggerChildren: 0.08,
+      staggerChildren: 0.1,
       delayChildren: 0.1,
     },
   },
 };
 
 const itemVariants = {
-  hidden: { opacity: 0, y: 16 },
+  hidden: { opacity: 0, y: 20 },
   visible: {
     opacity: 1,
     y: 0,
@@ -31,8 +28,213 @@ const itemVariants = {
   },
 };
 
+// Project showcase component
+function ProjectShowcase({ project, index, onClick, isActive }: {
+  project: typeof projectsContent.projects[0];
+  index: number;
+  onClick: () => void;
+  isActive: boolean;
+}) {
+  const icons = {
+    'LayoutDashboard': Monitor,
+    'Activity': Activity,
+    'Globe': Globe,
+    'GitBranch': GitBranch,
+  };
+
+  const Icon = icons[project.icon as keyof typeof icons] || Monitor;
+  const colors = {
+    'bg-teal-500/20 text-teal-400': 'from-teal-500/20 to-teal-500/5',
+    'bg-orange-500/20 text-orange-400': 'from-orange-500/20 to-orange-500/5',
+    'bg-cyan-500/20 text-cyan-400': 'from-cyan-500/20 to-cyan-500/5',
+    'bg-pink-500/20 text-pink-400': 'from-pink-500/20 to-pink-500/5',
+  };
+
+  const gradientClass = colors[project.color as keyof typeof colors] || 'from-teal-500/20 to-teal-500/5';
+  const textColor = project.color.split(' ')[1] || 'text-teal-400';
+
+  return (
+    <motion.div
+      variants={itemVariants}
+      onClick={onClick}
+      className={`relative group cursor-pointer transition-all duration-500 ${
+        isActive ? 'md:col-span-2 md:row-span-2' : ''
+      }`}
+    >
+      {/* Background Card */}
+      <div className={`absolute inset-0 rounded-2xl bg-gradient-to-br ${gradientClass} border border-white/10 group-hover:border-white/20 transition-all duration-300`} />
+
+      {/* Content */}
+      <div className="relative h-full p-6 flex flex-col">
+        {/* Header */}
+        <div className="flex items-start justify-between mb-4">
+          <div className={`p-3 rounded-xl ${project.color} bg-opacity-20`}>
+            <Icon className="w-6 h-6" />
+          </div>
+          <div className="flex items-center gap-2">
+            {project.images && (
+              <span className="text-xs text-gray-500 font-mono">{project.images.length} shots</span>
+            )}
+            <ChevronRight className={`w-5 h-5 text-gray-600 group-hover:${textColor} transition-all duration-300`} />
+          </div>
+        </div>
+
+        {/* Title */}
+        <h3 className={`font-sans text-lg font-bold text-white mb-2 group-hover:${textColor} transition-colors`}>
+          {project.title}
+        </h3>
+
+        {/* Description Preview */}
+        <p className="font-sans text-sm text-gray-400 leading-relaxed line-clamp-2 mb-4">
+          {project.description.slice(0, 2).join(' • ')}
+        </p>
+
+        {/* Tech Tags */}
+        {project.techTags.length > 0 && (
+          <div className="flex flex-wrap gap-2 mt-auto">
+            {project.techTags.slice(0, isActive ? 6 : 3).map((tag) => (
+              <span
+                key={tag}
+                className="px-2.5 py-1 text-xs font-mono rounded-full bg-white/5 border border-white/10 text-gray-400"
+              >
+                {tag}
+              </span>
+            ))}
+            {!isActive && project.techTags.length > 3 && (
+              <span className="text-xs text-gray-500">+{project.techTags.length - 3}</span>
+            )}
+          </div>
+        )}
+
+        {/* Hover Effect Overlay */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl pointer-events-none" />
+      </div>
+    </motion.div>
+  );
+}
+
+// Expanded view modal
+function ExpandedView({ project, onClose }: { project: typeof projectsContent.projects[0]; onClose: () => void }) {
+  const [currentImage, setCurrentImage] = useState(0);
+
+  const icons = {
+    'LayoutDashboard': Monitor,
+    'Activity': Activity,
+    'Globe': Globe,
+    'GitBranch': GitBranch,
+  };
+
+  const Icon = icons[project.icon as keyof typeof icons] || Monitor;
+  const textColor = project.color.split(' ')[1] || 'text-teal-400';
+
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      className="fixed inset-0 z-[100] flex items-center justify-center p-4 md:p-8 bg-black/80 backdrop-blur-sm"
+      onClick={onClose}
+    >
+      <motion.div
+        initial={{ scale: 0.9, opacity: 0 }}
+        animate={{ scale: 1, opacity: 1 }}
+        exit={{ scale: 0.9, opacity: 0 }}
+        onClick={(e) => e.stopPropagation()}
+        className="relative w-full max-w-5xl max-h-[90dvh] bg-[#0B1120] border border-white/10 rounded-2xl overflow-hidden shadow-2xl flex flex-col"
+      >
+        {/* Header */}
+        <div className="flex items-center justify-between p-6 border-b border-white/10">
+          <div className="flex items-center gap-4">
+            <div className={`p-3 rounded-xl ${project.color}`}>
+              <Icon className="w-6 h-6" />
+            </div>
+            <div>
+              <h2 className={`font-sans text-2xl font-bold text-white group-hover:${textColor}`}>{project.title}</h2>
+              {project.images && (
+                <span className="text-xs text-gray-500 font-mono">{project.images.length} screenshots</span>
+              )}
+            </div>
+          </div>
+          <button
+            onClick={onClose}
+            className="p-2 rounded-full bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/20 transition-all"
+          >
+            <X className="w-5 h-5 text-gray-400" />
+          </button>
+        </div>
+
+        {/* Image Gallery */}
+        {project.images && project.images.length > 0 && (
+          <div className="relative aspect-video bg-[#0F172A]">
+            <img
+              src={project.images[currentImage]}
+              alt={project.title}
+              className="w-full h-full object-cover"
+            />
+            {/* Image Navigation */}
+            {project.images.length > 1 && (
+              <>
+                <button
+                  onClick={() => setCurrentImage((prev) => (prev - 1 + project.images!.length) % project.images!.length)}
+                  className="absolute left-4 top-1/2 -translate-y-1/2 p-2 rounded-full bg-black/50 hover:bg-black/70 border border-white/20 transition-all"
+                >
+                  <ChevronRight className="w-5 h-5 text-white rotate-180" />
+                </button>
+                <button
+                  onClick={() => setCurrentImage((prev) => (prev + 1) % project.images!.length)}
+                  className="absolute right-4 top-1/2 -translate-y-1/2 p-2 rounded-full bg-black/50 hover:bg-black/70 border border-white/20 transition-all"
+                >
+                  <ChevronRight className="w-5 h-5 text-white" />
+                </button>
+                <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2">
+                  {project.images.map((_, i) => (
+                    <button
+                      key={i}
+                      onClick={() => setCurrentImage(i)}
+                      className={`h-2 rounded-full transition-all ${i === currentImage ? 'w-8 bg-teal-400' : 'w-2 bg-white/30'}`}
+                    />
+                  ))}
+                </div>
+              </>
+            )}
+          </div>
+        )}
+
+        {/* Details */}
+        <div className="p-6 overflow-y-auto max-h-[40dvh]">
+          <h3 className="font-mono text-xs tracking-widest text-teal-400 uppercase mb-4">Project Details</h3>
+          <ul className="space-y-3 mb-6">
+            {project.description.map((item, i) => (
+              <li key={i} className="font-sans text-sm text-gray-300 flex items-start gap-3">
+                <span className={`mt-1 ${textColor}`}>→</span>
+                <span className="leading-relaxed">{item}</span>
+              </li>
+            ))}
+          </ul>
+
+          {project.techTags.length > 0 && (
+            <>
+              <h3 className="font-mono text-xs tracking-widest text-teal-400 uppercase mb-3">Tech Stack</h3>
+              <div className="flex flex-wrap gap-2">
+                {project.techTags.map((tag) => (
+                  <span
+                    key={tag}
+                    className="px-3 py-1.5 text-xs font-mono rounded-full bg-white/5 border border-white/10 text-gray-300 hover:border-teal-400/40 transition-all"
+                  >
+                    {tag}
+                  </span>
+                ))}
+              </div>
+            </>
+          )}
+        </div>
+      </motion.div>
+    </motion.div>
+  );
+}
+
 export default function Slide3Projects() {
-  const [selectedProject, setSelectedProject] = useState<typeof projectsContent.projects[0] | null>(null);
+  const [expandedProject, setExpandedProject] = useState<typeof projectsContent.projects[0] | null>(null);
 
   return (
     <>
@@ -40,98 +242,40 @@ export default function Slide3Projects() {
         variants={containerVariants}
         initial="hidden"
         animate="visible"
-        className="w-screen min-h-screen md:h-[100dvh] flex flex-col items-center bg-grid-pattern bg-[length:40px_40px] px-4 md:px-12 py-8 md:py-12 pb-24 md:pb-28 overflow-y-auto md:overflow-hidden"
+        className="w-screen h-[100dvh] flex flex-col bg-grid-pattern bg-[length:40px_40px] px-6 md:px-12 pt-10 pb-28 overflow-hidden"
       >
-        <motion.h1 variants={itemVariants} className="font-sans text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-6 md:mb-8 text-center flex-shrink-0">
-          {projectsContent.title}
-        </motion.h1>
+        {/* Header */}
+        <motion.div variants={itemVariants} className="mb-8">
+          <div className="flex items-center gap-3 mb-2">
+            <div className="w-1 h-8 bg-gradient-to-b from-teal-400 to-teal-600 rounded-full" />
+            <h1 className="font-sans text-3xl md:text-4xl font-bold text-white">
+              {projectsContent.title}
+            </h1>
+          </div>
+          <p className="font-mono text-sm text-gray-500 ml-4">Key contributions & delivered solutions</p>
+        </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-5 max-w-6xl w-full flex-1 px-2 md:px-0 min-h-0">
-          {projectsContent.projects.map((project) => {
-            const IconComponent = LucideIcons[project.icon as keyof typeof LucideIcons] as LucideIcons.LucideIcon;
-
-            return (
-              <motion.div key={project.title} variants={itemVariants} className="min-h-0">
-                <Card
-                  className="h-full cursor-pointer transition-all duration-300 hover:border-teal-400/40 hover:shadow-teal-500/10 shadow-lg flex flex-col"
-                  onClick={() => setSelectedProject(project)}
-                >
-                  <div className="flex justify-between items-start mb-3 md:mb-4 flex-shrink-0">
-                    <div className={`inline-flex p-2 md:p-3 rounded-xl ${project.color}`}>
-                      <IconComponent className="w-5 h-5 md:w-6 md:h-6" />
-                    </div>
-                  </div>
-
-                  <h3 className="font-sans text-base md:text-lg font-semibold text-white mb-2 md:mb-3 flex-shrink-0">
-                    {project.title}
-                  </h3>
-
-                  <div className="flex-1 min-h-0">
-                    <ul className="space-y-1.5 line-clamp-2 md:line-clamp-3 mb-3">
-                      {project.description.slice(0, 3).map((item, i) => (
-                        <li key={i} className="font-sans text-xs md:text-sm text-gray-400 flex items-start gap-2">
-                          <span className="text-teal-400 mt-0.5 flex-shrink-0 text-xs">•</span>
-                          <span className="leading-snug">{item}</span>
-                        </li>
-                      ))}
-                    </ul>
-
-                    {project.images && project.images.length > 0 && (
-                      <div className="flex items-center gap-2 text-xs text-teal-400/80 font-mono mb-3">
-                        <LucideImages className="w-4 h-4" />
-                        <span>{project.images.length} screenshot{project.images.length > 1 ? 's' : ''}</span>
-                      </div>
-                    )}
-
-                    {project.techTags.length > 0 && (
-                      <div className="flex flex-wrap gap-1.5 md:gap-2">
-                        {project.techTags.map((tag) => (
-                          <Badge key={tag}>{tag}</Badge>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-
-                  <div className="mt-3 text-xs text-teal-400/60 font-mono flex items-center gap-1 flex-shrink-0">
-                    Click to view details <LucideIcons.ArrowRight className="w-3 h-3" />
-                  </div>
-                </Card>
-              </motion.div>
-            );
-          })}
+        {/* Projects Grid - Bento Box Style */}
+        <div className="flex-1 grid grid-cols-1 md:grid-cols-4 gap-4 md:gap-5 overflow-hidden">
+          {projectsContent.projects.map((project, index) => (
+            <ProjectShowcase
+              key={project.title}
+              project={project}
+              index={index}
+              onClick={() => setExpandedProject(project)}
+              isActive={expandedProject?.title === project.title}
+            />
+          ))}
         </div>
       </motion.div>
 
-      {/* Modal */}
-      {selectedProject && (
-        <ProjectModal
-          project={selectedProject}
-          images={selectedProject.images || []}
-          onClose={() => setSelectedProject(null)}
+      {/* Expanded View Modal */}
+      {expandedProject && (
+        <ExpandedView
+          project={expandedProject}
+          onClose={() => setExpandedProject(null)}
         />
       )}
     </>
-  );
-}
-
-// Import images icon
-function LucideImages({ className }: { className?: string }) {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      className={className}
-    >
-      <rect width="18" height="18" x="3" y="3" rx="2" ry="2" />
-      <circle cx="9" cy="9" r="2" />
-      <path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21" />
-    </svg>
   );
 }

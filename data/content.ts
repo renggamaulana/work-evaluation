@@ -12,8 +12,8 @@ export interface Project {
 export const coverContent = {
   tag: 'PERFORMANCE REVIEW 2026',
   statusLabel: 'IDENTITY VERIFICATION: SUCCESSFUL',
-  title: 'Backend Developer — 3-Month Performance Review',
-  highlightedWord: '3-Month',
+  title: 'Backend Developer',
+  // highlightedWord: '3-Month',
   terminalLine: 'root@rengga:~/performance-review-2026 --init',
   candidate: 'Rengga Maulana',
   evaluationDate: 'Thursday, 30 July 2026',
@@ -21,7 +21,7 @@ export const coverContent = {
 };
 
 export const scopeOfWorkContent = {
-  title: 'Ruang Lingkup Pekerjaan',
+  title: 'Scope of Work',
   categories: [
     {
       title: 'Backend Development',
@@ -59,7 +59,7 @@ export const scopeOfWorkContent = {
 };
 
 export const projectsContent = {
-  title: 'Kontribusi Proyek',
+  title: 'Project Contribution',
   projects: [
     {
       title: 'Dashboard Dakgar V2',
