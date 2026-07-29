@@ -62,20 +62,28 @@ export const projectsContent = {
   title: 'Project Contribution',
   projects: [
     {
-      title: 'Dashboard Dakgar V2',
+      title: 'Dashboard Dakgar',
       description: [
         'Rekonsiliasi data (query gap analysis vs vendor E-Tilang & ETLENAS)',
         'Setup project & desain API',
         'Integrasi frontend–backend',
-        'Pengembangan fitur dashboard',
+        'Pengembangan fitur dashboard V2',
       ],
       // techTags: ['Next.js', 'Material UI', 'Fastify', 'PostgreSQL'],
       icon: 'LayoutDashboard',
       color: 'bg-teal-500/20 text-teal-400',
       images: [
-        'https://placehold.co/800x450/0f172a/14b8a6?text=Dashboard+Dakgar+V2-+Overview&font=montserrat',
-        'https://placehold.co/800x450/0f172a/14b8a6?text=Dashboard+Dakgar+V2-+Analytics&font=montserrat',
-        'https://placehold.co/800x450/0f172a/14b8a6?text=Dashboard+Dakgar+V2-+Data+Flow&font=montserrat',
+        '/images/dashboard/ss001.png',
+        '/images/dashboard/ss002.png',
+        '/images/dashboard/ss003.png',
+        '/images/dashboard/ss004.png',
+        '/images/dashboard/ss1.png',
+        '/images/dashboard/ss2.png',
+        '/images/dashboard/ss3.png',
+        '/images/dashboard/ss4.png',
+        '/images/dashboard/ss5.png',
+        '/images/dashboard/ss6.png',
+        '/images/dashboard/ss7.png',
       ],
     },
     {
@@ -90,8 +98,11 @@ export const projectsContent = {
       icon: 'Activity',
       color: 'bg-orange-500/20 text-orange-400',
       images: [
-        'https://placehold.co/800x450/1e1b4b/f97316?text=ETLE+Monitoring-+Dashboard&font=montserrat',
-        'https://placehold.co/800x450/1e1b4b/f97316?text=ETLE+Monitoring-+Logs&font=montserrat',
+        '/images/etle/ss1.png',
+        '/images/etle/ss2.png',
+        '/images/etle/ss3.png',
+        '/images/etle/ss4.png',
+        '/images/etle/ss5.png',
       ],
     },
     {
@@ -106,9 +117,13 @@ export const projectsContent = {
       icon: 'Globe',
       color: 'bg-cyan-500/20 text-cyan-400',
       images: [
-        'https://placehold.co/800x450/020617/06b6d4?text=Tristan+Company+Profile-+Home&font=montserrat',
-        'https://placehold.co/800x450/020617/06b6d4?text=Tristan+Company+Profile-+About&font=montserrat',
-        'https://placehold.co/800x450/020617/06b6d4?text=Tristan+Company+Profile-+Services&font=montserrat',
+        '/images/cp-tristan/ss1.png',
+        '/images/cp-tristan/ss2.png',
+        '/images/cp-tristan/ss3.png',
+        '/images/cp-tristan/ss4.png',
+        '/images/cp-tristan/ss5.png',
+        '/images/cp-tristan/ss6.png',
+        '/images/cp-tristan/ss7.png',
       ],
     },
     {
@@ -130,7 +145,7 @@ export const projectsContent = {
 };
 
 export const lessonsLearnedContent = {
-  title: 'Hal yang Dipelajari & Dibimbing oleh Peers',
+  title: 'Key Learnings & Peer Guidance',
   categories: [
     {
       title: 'Business Process',
@@ -179,10 +194,10 @@ export const lessonsLearnedContent = {
 };
 
 export const challengesContent = {
-  title: 'Kendala yang Dihadapi',
+  title: 'Challenges & Obstacles',
   challenges: [
     {
-      title: 'Dokumentasi Proyek',
+      title: 'Project Documentation',
       icon: 'FileX',
       color: 'bg-amber-500/20 text-amber-400',
       description: 'Keterbatasan dokumentasi business flow, struktur database, API, data flow, dan objective proyek — memperlambat proses onboarding.',
@@ -203,7 +218,7 @@ export const challengesContent = {
 };
 
 export const improvementPlanContent = {
-  title: 'Rencana Pengembangan',
+  title: 'Growth & Development Plan',
   phases: [
     {
       term: 'Short Term',

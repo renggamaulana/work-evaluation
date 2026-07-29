@@ -1,6 +1,7 @@
 'use client';
 
-import { motion } from 'framer-motion';
+import { useEffect, useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { ShieldCheck } from 'lucide-react';
 import { coverContent } from '@/data/content';
 
@@ -29,10 +30,55 @@ const itemVariants = {
 
 const checklistItems = [
   'Backend Developer',
-  'Performance Review'
+  'Performance Review',
 ];
 
+// Kecepatan mengetik per karakter (ms). Naikkan angkanya untuk lebih lambat.
+const TYPING_SPEED = 35;
+// Jeda sebelum baris checklist mulai muncul satu-satu (ms)
+const RESULT_START_DELAY = 250;
+const RESULT_STAGGER = 220;
+
 export default function Slide1Cover() {
+  const [typedText, setTypedText] = useState('');
+  const [isTypingDone, setIsTypingDone] = useState(false);
+  const [visibleChecklist, setVisibleChecklist] = useState<string[]>([]);
+
+  // Efek mengetik ala terminal/CLI
+  useEffect(() => {
+    const fullText = coverContent.terminalLine;
+    let currentIndex = 0;
+
+    setTypedText('');
+    setIsTypingDone(false);
+    setVisibleChecklist([]);
+
+    const typingInterval = setInterval(() => {
+      currentIndex += 1;
+      setTypedText(fullText.slice(0, currentIndex));
+
+      if (currentIndex >= fullText.length) {
+        clearInterval(typingInterval);
+        setIsTypingDone(true);
+      }
+    }, TYPING_SPEED);
+
+    return () => clearInterval(typingInterval);
+  }, []);
+
+  // Setelah typing selesai, tampilkan hasil checklist satu per satu
+  useEffect(() => {
+    if (!isTypingDone) return;
+
+    const timeouts = checklistItems.map((item, i) =>
+      setTimeout(() => {
+        setVisibleChecklist((prev) => [...prev, item]);
+      }, RESULT_START_DELAY + i * RESULT_STAGGER)
+    );
+
+    return () => timeouts.forEach(clearTimeout);
+  }, [isTypingDone]);
+
   return (
     <motion.div
       variants={containerVariants}
@@ -97,26 +143,42 @@ export default function Slide1Cover() {
           </div>
 
           <div className="p-5 font-mono text-[13px]">
-            {/* Satu baris command saja, tidak duplikat path */}
+            {/* Baris command dengan efek mengetik */}
             <div className="mb-3 flex flex-wrap items-center">
               <span className="text-green-400">rengga@MacBook-Pro</span>
               <span className="mx-2 text-gray-500">~/performance-review</span>
               <span className="text-cyan-400">%</span>
-              <span className="ml-2 text-white">{coverContent.terminalLine}</span>
-              <motion.span
-                animate={{ opacity: [0, 1, 0] }}
-                transition={{ duration: 0.9, repeat: Infinity }}
-                className="ml-1 inline-block h-4 w-[2px] bg-white"
-              />
+              <span className="ml-2 text-white">{typedText}</span>
+
+              {/* Kursor: solid selagi mengetik, berkedip setelah selesai */}
+              {isTypingDone ? (
+                <motion.span
+                  animate={{ opacity: [0, 1, 0] }}
+                  transition={{ duration: 0.9, repeat: Infinity }}
+                  className="ml-1 inline-block h-4 w-[2px] bg-white"
+                />
+              ) : (
+                <span className="ml-1 inline-block h-4 w-[2px] bg-white" />
+              )}
             </div>
 
+            {/* Hasil checklist muncul satu-satu setelah command selesai diketik */}
             <div className="space-y-1.5 text-gray-300">
-              {checklistItems.map((line) => (
-                <div key={line} className="flex items-center gap-2">
-                  <span className="text-teal-400">✔</span>
-                  <span>{line}</span>
-                </div>
-              ))}
+              <AnimatePresence>
+                {visibleChecklist.map((line) => (
+                  <motion.div
+                    key={line}
+                    initial={{ opacity: 0, x: -8 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0 }}
+                    transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+                    className="flex items-center gap-2"
+                  >
+                    <span className="text-teal-400">✔</span>
+                    <span>{line}</span>
+                  </motion.div>
+                ))}
+              </AnimatePresence>
             </div>
           </div>
         </motion.div>
