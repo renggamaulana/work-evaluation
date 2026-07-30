@@ -59,7 +59,7 @@ export const scopeOfWorkContent = {
 };
 
 export const projectsContent = {
-  title: 'Project Contribution',
+  title: 'Projects Handled',
   projects: [
     {
       title: 'Dashboard Dakgar',
@@ -103,6 +103,8 @@ export const projectsContent = {
         '/images/etle/ss3.png',
         '/images/etle/ss4.png',
         '/images/etle/ss5.png',
+        '/images/etle/ss6.png',
+        '/images/etle/ss7.png',
       ],
     },
     {
@@ -124,6 +126,10 @@ export const projectsContent = {
         '/images/cp-tristan/ss5.png',
         '/images/cp-tristan/ss6.png',
         '/images/cp-tristan/ss7.png',
+        '/images/cp-tristan/ss8.png',
+        '/images/cp-tristan/ss9.png',
+        '/images/cp-tristan/ss10.png',
+        '/images/cp-tristan/ss11.png',
       ],
     },
     {
@@ -194,8 +200,8 @@ export const lessonsLearnedContent = {
       icon: 'Users',
       color: 'bg-rose-500/20 text-rose-400',
       items: [
-        'Koordinasi dengan Backend Developer lain',
-        'Kolaborasi dengan Frontend & Consultant',
+        'Koordinasi dengan Team Engineering & Operation',
+        'Kolaborasi dengan UI/UX Engineer & Consultant',
         'Mengikuti proses meeting project',
       ],
     },

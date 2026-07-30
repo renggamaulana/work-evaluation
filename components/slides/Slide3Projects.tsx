@@ -2,7 +2,7 @@
 
 import { motion } from 'framer-motion';
 import { useState } from 'react';
-import { Monitor, Activity, Globe, GitBranch, ImageOff } from 'lucide-react';
+import { Monitor, Activity, Globe, GitBranch, Archive, ImageOff } from 'lucide-react';
 import { projectsContent } from '@/data/content';
 import ImageGalleryModal from '@/components/ui/ImageGalleryModal';
 
@@ -28,6 +28,7 @@ const icons = {
   Activity: Activity,
   Globe: Globe,
   GitBranch: GitBranch,
+  Archive: Archive,
 };
 
 function ProjectCard({
@@ -45,9 +46,9 @@ function ProjectCard({
   return (
     <motion.div
       variants={itemVariants}
-      className="relative rounded-2xl border border-white/10 hover:border-white/20 bg-white/[0.03] transition-all duration-300 flex flex-col h-full min-h-[420px] overflow-hidden"
+      className="relative rounded-2xl border border-white/10 hover:border-white/20 bg-white/[0.03] transition-all duration-300 flex flex-col h-full overflow-hidden"
     >
-      <div className="p-5 md:p-6 flex flex-col h-full">
+      <div className="p-5 md:p-6 flex flex-col h-full min-h-0">
         {/* Header */}
         <div className="flex items-start justify-between mb-4 flex-shrink-0">
           <div className={`p-3 rounded-xl ${project.color} bg-opacity-20`}>
@@ -65,8 +66,9 @@ function ProjectCard({
           {project.title}
         </h3>
 
-        {/* Description — scrolls internally if long, never pushes layout below it */}
-        <ul className="space-y-1.5 mb-4 overflow-y-auto pr-1 flex-shrink min-h-0">
+        {/* Description — takes remaining space and scrolls internally if long,
+            never pushes the thumbnail below the card / viewport */}
+        <ul className="space-y-1.5 mb-4 overflow-y-auto pr-1 flex-1 min-h-0">
           {project.description.map((item, i) => (
             <li key={i} className="font-sans text-sm text-gray-400 flex items-start gap-2 leading-snug">
               <span className={`mt-0.5 flex-shrink-0 ${textColor}`}>→</span>
@@ -75,35 +77,31 @@ function ProjectCard({
           ))}
         </ul>
 
-        {/* Spacer pushes tags + thumbnail to the bottom consistently */}
-        <div className="mt-auto flex-shrink-0">
-         
-          {/* Thumbnail / gallery trigger — single, non-overlapping button */}
-          {hasImages && (
-            <button
-              onClick={onOpenGallery}
-              className="relative w-full rounded-lg overflow-hidden h-24 border border-white/10 hover:border-teal-400/40 transition-all group bg-[#0F172A]"
-            >
-              {!thumbFailed ? (
-                <img
-                  src={project.images![0]}
-                  alt=""
-                  onError={() => setThumbFailed(true)}
-                  className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                />
-              ) : (
-                <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-white/[0.04] to-transparent">
-                  <ImageOff className="w-5 h-5 text-gray-600" />
-                </div>
-              )}
-              <div className="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-colors flex items-center justify-center">
-                <span className="text-xs font-mono text-white/90 bg-black/50 px-2.5 py-1 rounded-full whitespace-nowrap">
-                  View screenshots →
-                </span>
+        {/* Thumbnail / gallery trigger — pinned to bottom, fixed height, never grows */}
+        {hasImages && (
+          <button
+            onClick={onOpenGallery}
+            className="relative w-full rounded-lg overflow-hidden h-24 border border-white/10 hover:border-teal-400/40 transition-all group bg-[#0F172A] flex-shrink-0"
+          >
+            {!thumbFailed ? (
+              <img
+                src={project.images![0]}
+                alt=""
+                onError={() => setThumbFailed(true)}
+                className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+              />
+            ) : (
+              <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-white/[0.04] to-transparent">
+                <ImageOff className="w-5 h-5 text-gray-600" />
               </div>
-            </button>
-          )}
-        </div>
+            )}
+            <div className="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-colors flex items-center justify-center">
+              <span className="text-xs font-mono text-white/90 bg-black/50 px-2.5 py-1 rounded-full whitespace-nowrap">
+                View screenshots →
+              </span>
+            </div>
+          </button>
+        )}
       </div>
     </motion.div>
   );
@@ -118,7 +116,7 @@ export default function Slide3Projects() {
         variants={containerVariants}
         initial="hidden"
         animate="visible"
-        className="w-screen h-[100dvh] flex flex-col bg-grid-pattern bg-[length:40px_40px] px-6 md:px-12 pt-10 pb-24 overflow-y-auto"
+        className="w-screen h-[100dvh] flex flex-col bg-grid-pattern bg-[length:40px_40px] px-6 md:px-12 pt-10 pb-8 overflow-hidden"
       >
         {/* Header */}
         <motion.div variants={itemVariants} className="mb-8 flex-shrink-0">
@@ -131,15 +129,17 @@ export default function Slide3Projects() {
           <p className="font-mono text-sm text-gray-500 ml-4">Key contributions & delivered solutions</p>
         </motion.div>
 
-        {/* Projects Grid — equal height rows via auto-rows-fr, no clipping */}
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 auto-rows-fr gap-4 md:gap-5">
-          {projectsContent.projects.map((project) => (
-            <ProjectCard
-              key={project.title}
-              project={project}
-              onOpenGallery={() => setGalleryProject(project)}
-            />
-          ))}
+        {/* Projects Grid — takes exactly the remaining height, never overflows the slide */}
+        <div className="flex-1 min-h-0">
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 auto-rows-fr gap-4 md:gap-5 h-full">
+            {projectsContent.projects.map((project) => (
+              <ProjectCard
+                key={project.title}
+                project={project}
+                onOpenGallery={() => setGalleryProject(project)}
+              />
+            ))}
+          </div>
         </div>
       </motion.div>
 
