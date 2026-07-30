@@ -201,7 +201,7 @@ export const lessonsLearnedContent = {
       color: 'bg-rose-500/20 text-rose-400',
       items: [
         'Koordinasi dengan Team Engineering & Operation',
-        'Kolaborasi dengan UI/UX Engineer & Consultant',
+        'Kolaborasi dengan UI/UX Engineer & Business Development',
         'Mengikuti proses meeting project',
       ],
     },
