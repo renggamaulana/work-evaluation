@@ -59,7 +59,7 @@ export default function Slide6Improvement() {
                     <li key={i} className="font-sans text-xs md:text-sm text-gray-400 flex items-start gap-2">
                       <span className="text-teal-400 mt-0.5 flex-shrink-0">→</span>
                       <span className="leading-snug line-clamp-2">{item}</span>
-                    </li>
+                    </li> 
                   ))}
                 </ul>
               </div>

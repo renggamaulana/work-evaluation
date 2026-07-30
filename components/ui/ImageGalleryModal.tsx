@@ -16,7 +16,7 @@ export default function ImageGalleryModal({ title, images, onClose }: ImageGalle
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentImageIndex((prev) => (prev + 1) % images.length);
-    }, 4000);
+    }, 5000);
     return () => clearInterval(interval);
   }, [images.length]);
 
