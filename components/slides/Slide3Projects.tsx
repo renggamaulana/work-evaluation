@@ -56,7 +56,7 @@ function ProjectCard({
           </div>
           {hasImages && (
             <span className="text-xs font-mono text-gray-500">
-              {project.images!.length} shots
+              {project.images!.length} Overviews
             </span>
           )}
         </div>
@@ -97,7 +97,7 @@ function ProjectCard({
             )}
             <div className="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-colors flex items-center justify-center">
               <span className="text-xs font-mono text-white/90 bg-black/50 px-2.5 py-1 rounded-full whitespace-nowrap">
-                View screenshots →
+                Explore Projects →
               </span>
             </div>
           </button>

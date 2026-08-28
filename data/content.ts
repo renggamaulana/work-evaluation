@@ -16,7 +16,7 @@ export const coverContent = {
   // highlightedWord: '3-Month',
   terminalLine: 'root@rengga:~/performance-review-2026 --init',
   candidate: 'Rengga Maulana',
-  evaluationDate: 'Thursday, 30 July 2026',
+  evaluationDate: 'Friday, 28 August 2026',
   hint: 'Press → or Space to begin',
 };
 
@@ -64,8 +64,9 @@ export const projectsContent = {
     {
       title: 'Dashboard Dakgar',
       description: [
-        'Rekonsiliasi data (query gap analysis vs vendor E-Tilang & ETLENAS)',
+        'Rekonsiliasi data (query gap analysis dari 2 vendor: E-Tilang & ETLENAS)',
         'Setup project & desain API',
+        'Slicing UI dari design Figma',
         'Integrasi frontend–backend',
         'Pengembangan fitur dashboard V2',
       ],
@@ -111,9 +112,9 @@ export const projectsContent = {
       title: 'Tristan Company Profile',
       description: [
         'Development menggunakan Next.js',
-        'Deployment ke server',
         'Konfigurasi environment',
         'Testing production',
+        'Deployment ke server',
       ],
       techTags: ['Next.js'],
       icon: 'Globe',
@@ -243,6 +244,8 @@ export const improvementPlanContent = {
         'Menyelesaikan Dashboard Dakgar V2',
         'Memperdalam PostgreSQL',
         'Memahami seluruh flow ETLE',
+        'Mengembangkan website company profile Innotech',
+        'Mendesain ulang website company profile Tristan'
       ],
     },
     {
@@ -253,6 +256,7 @@ export const improvementPlanContent = {
         'Optimasi query',
         'API performance improvement',
         'Dokumentasi project',
+        'Mengembangkan aplikasi/sistem internal'
       ],
     },
     {
