@@ -69,6 +69,7 @@ export const projectsContent = {
         'Slicing UI dari design Figma',
         'Integrasi frontend–backend',
         'Pengembangan fitur dashboard V2',
+        'Database Mapping & Optimization',
       ],
       // techTags: ['Next.js', 'Material UI', 'Fastify', 'PostgreSQL'],
       icon: 'LayoutDashboard',
@@ -168,7 +169,7 @@ export const lessonsLearnedContent = {
       icon: 'Briefcase',
       color: 'bg-blue-500/20 text-blue-400',
       items: [
-        'Memahami alur data ETLE dari sumber hingga visualisasi dashboard',
+        'Memahami alur data ETLE & E-Tilang dari sumber hingga visualisasi dashboard',
         'Memahami proses rekonsiliasi data antar vendor',
         'Memahami arah dan proses bisnis perusahaan secara lebih luas melalui project Dashboard dan diskusi lintas tim',
       ],
