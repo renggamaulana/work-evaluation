@@ -16,7 +16,7 @@ export const coverContent = {
   // highlightedWord: '3-Month',
   terminalLine: 'root@rengga:~/performance-review-2026 --init',
   candidate: 'Rengga Maulana',
-  evaluationDate: 'Wednesday, 10 September 2026',
+  evaluationDate: 'Thursday, 10 September 2026',
   hint: 'Press → or Space to begin',
 };
 
